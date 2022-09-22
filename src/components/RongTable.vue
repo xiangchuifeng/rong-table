@@ -15,6 +15,7 @@
               后面重载可从 getData(obj) 传参的形式载入筛选条件
     autoHeight: 默认是false ,flex 1,自动使用外边父级的高度的，为true时候高度为自由高度，解决整体页面双滚动条问题,同时需要flexHeight 设为 false；
                 或者，另外 硬性通过css设置table的固定高度 也可以暂时解决整体页面双滚动条问题，
+    needPagiantion: 默认 true,是否需要分页
   methods:
     setStaticData: 设置静态数据用
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
@@ -40,6 +41,7 @@
     <!-- scroll-x="1700" -->
 
     <n-pagination
+      v-if="needPagiantion"
       class="ld_pagination"
       v-model:page="tbPagination.obj.currentPage"
       v-model:page-size="tbPagination.obj.pageSize"
@@ -93,6 +95,10 @@
       default: null,
     },
     postDataNormalKeys: Object,
+    needPagiantion: {
+      type: Boolean,
+      default: true,
+    },
   });
 
   const emit = defineEmits(["total"]);
@@ -225,8 +231,12 @@
   const getInnerPageHeight = (classStr) => document.querySelector(classStr).offsetHeight;
 
   const getTableWrapHeight = () => {
-    height.value = getInnerPageHeight(`.${props.pageClass}.tb_block_wrap`) - 48;
-    console.log(height.value,'kkk')
+    let h = getInnerPageHeight(`.${props.pageClass}.tb_block_wrap`);
+    if (!props.needPagiantion) {
+      height.value = h;
+    } else {
+      height.value = h - 48;
+    }
   };
   const watchResize = () => {
     window.onresize = () => {

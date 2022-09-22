@@ -1,7 +1,14 @@
 {
   "name": "rong-table",
-  "version": "0.0.4",
-  "main":"./src/components/Rongtable.vue",
+  "version": "0.0.7",
+  "keywords": [
+    "naive-ui",
+    "table",
+    "rong-table"
+  ],
+  "description": "好用的基于naive-ui 的表格组件，已在多项目中应用",
+  "license": "MIT",
+  "main": "./src/components/Rongtable.vue",
   "type": "module",
   "scripts": {
     "dev": "vite",

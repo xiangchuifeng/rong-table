@@ -1,5 +1,4 @@
 
-const refTable = {};
 let tableReload = null;
 
 export const injectTableVars = (vars)=>{
