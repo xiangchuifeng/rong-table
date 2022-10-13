@@ -25,12 +25,13 @@
  -->
 <template>
   <div :class="[autoHeight ? '' : 'vx-flex_item', pageClass]" class="tb_block_wrap table">
+    <!-- :style="{ height: autoHeight ? 'auto' : `${height}px` }" -->
     <n-data-table
       class="ld_rong_table"
       :class="noHeadLine ? 'no_head_tb' : ''"
       :columns="columns0"
       :data="data"
-      :style="{ height: autoHeight ? 'auto' : `${height}px` }"
+      :style="{ height: autoHeight ? 'auto' : heightStr }"
       :loading="loading"
       :pagination="false"
       :bordered="false"
@@ -104,7 +105,8 @@
   const emit = defineEmits(["total"]);
 
   const height = ref(200);
-  const loading = ref(false);
+  const heightStr = ref(props.needPagination ? 'calc(100% - 48px)' : '100%');
+  const loading = ref(true);
 
   const columns0 = toRef(props, "columns");
   const pagconfig0 = reactive({
@@ -133,6 +135,7 @@
   const apiName0 = ref(props.apiName);
 
   const setStaticData = (val) => {
+    loading.value = false;
     data.value = val;
   };
 
@@ -256,7 +259,7 @@
       } else {
         getData();
       }
-    }, 100);
+    }, 10);
   });
 </script>
 
