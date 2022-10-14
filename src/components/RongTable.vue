@@ -187,6 +187,7 @@
     } else {
       let staticData = [];
       data.value = staticData;
+      loading.value = false;
     }
   };
 
