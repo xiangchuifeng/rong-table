@@ -207,11 +207,20 @@
     }
   );
 
+  // watch(
+  //   () => props.apiName,
+  //   (n) => {
+  //     console.log(n, "l--");
+  //     props.apiFn = n;
+  //     tbPagination.obj = defaultPagination;
+  //     getData();
+  //   },
+  //   { deep: true }
+  // );
+
   watch(
-    () => props.apiName,
+    () => props.apiFn,
     (n) => {
-      console.log(n, "l--");
-      props.apiFn = n;
       tbPagination.obj = defaultPagination;
       getData();
     },
