@@ -16,12 +16,15 @@
     autoHeight: 默认是false ,flex 1,自动使用外边父级的高度的，为true时候高度为自由高度，解决整体页面双滚动条问题,同时需要flexHeight 设为 false；
                 或者，另外 硬性通过css设置table的固定高度 也可以暂时解决整体页面双滚动条问题，
     needPagiantion: 默认 true,是否需要分页
+    showJumper:boolean 是否需要跳转页 default:true
   methods:
     setStaticData: 设置静态数据用
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
     ，并重新请求表单数据，不传搜索条件，则重载数据
       searchObj: 搜索条件
       'noNeedResetPage' 默认是搜索时候重置的，不需要重置，就带第二个参数 'noNeedResetPage'
+  emit
+    total(total,list)
  -->
 <template>
   <div :class="[autoHeight ? '' : 'vx-flex_item', pageClass]" class="tb_block_wrap table">
@@ -39,8 +42,7 @@
       single-line
       :scroll-x="scrollX || 1200"
     />
-    <!-- scroll-x="1700" -->
-
+    
     <n-pagination
       v-if="needPagiantion"
       class="ld_pagination"
@@ -49,12 +51,12 @@
       v-model:item-count="tbPagination.obj.total"
       @update:page="currentPageChange"
       :page-slot="7"
-      show-quick-jumper
+      :show-quick-jumper="showJumper"
       :show-size-picker="pagconfig0.obj.showSizePicker"
       :page-sizes="pagconfig0.obj.pageSizes"
     >
-      <template #prefix="{ itemCount }"> 共 {{ itemCount }} 条 </template>
-      <template #suffix="{ endIndex }"> 页 </template>
+      <template v-if="showJumper" #prefix="{ itemCount }"> 共 {{ itemCount }} 条 </template>
+      <template v-if="showJumper" #suffix="{ endIndex }"> 页 </template>
     </n-pagination>
   </div>
 </template>
@@ -100,6 +102,10 @@
       type: Boolean,
       default: true,
     },
+    showJumper:{
+    type: Boolean,
+    default: true,
+  }
   });
 
   const emit = defineEmits(["total"]);
