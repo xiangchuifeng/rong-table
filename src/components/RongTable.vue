@@ -16,6 +16,9 @@
     autoHeight: 默认是false ,flex 1,自动使用外边父级的高度的，为true时候高度为自由高度，解决整体页面双滚动条问题,同时需要flexHeight 设为 false；
                 或者，另外 硬性通过css设置table的固定高度 也可以暂时解决整体页面双滚动条问题，
     needPagiantion: 默认 true,是否需要分页
+    listname: 接口返回的分页列表对应的 key值，默认为 list,res.data.list
+    resDataKeys: {listKey,totalKey},列表接口成功之后对应的key值自定义
+
     showJumper:boolean 是否需要跳转页 default:true
   methods:
     setStaticData: 设置静态数据用
@@ -80,6 +83,10 @@
     listname: {
       type: String,
       default: "",
+    },
+    resDataKeys: {
+      type: Object,
+      default: null,
     },
     noHeadLine: {
       type: Boolean,
@@ -176,15 +183,24 @@
           .apiFn(postData)
           .then((res) => {
             loading.value = false;
-            if (props.listname) {
-              data.value = res.data[props.listname].list;
-              tbPagination.obj.total = res.data[props.listname].totalCount;
-              emit("total", res.data[props.listname].totalCount);
-            } else {
-              data.value = res.data.list;
-              tbPagination.obj.total = res.data.totalCount;
-              emit("total", res.data.totalCount);
+            if(props.resDataKeys){
+              if (props.listname) {
+                data.value = res.data[props.listname][props.resDataKeys.listKey];
+                tbPagination.obj.total = res.data[props.listname][props.resDataKeys.totalKey];
+              } else {
+                data.value = res.data[props.resDataKeys.listKey];
+                tbPagination.obj.total = res.data[props.resDataKeys.totalKey];
+              }
+            }else{
+              if (props.listname) {
+                data.value = res.data[props.listname].list;
+                tbPagination.obj.total = res.data[props.listname].totalCount;
+              } else {
+                data.value = res.data.list;
+                tbPagination.obj.total = res.data.totalCount;
+              }
             }
+            emit("total", tbPagination.obj.total);
           })
           .catch((err) => {
             loading.value = false;

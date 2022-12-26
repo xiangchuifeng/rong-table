@@ -25,7 +25,9 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 | autoHeight         | Boolean  | 否   | 默认是 false ,flex 1,自动使用外边父级的高度的，为 true 时候高度为自由高度，解决整体页面双滚动条问题,同时需要 flexHeight 设为 false；或者，另外 硬性通过 css 设置 table 的固定高度 也可以暂时解决整体页面双滚动条问题， | false  |
 | needPagiantion     | Boolean  | 否   | 默认是 true,是否需要分页部分  | --  |
 | noHeadLine         | Boolean  | 否   | 默认是 false ,是否需要头部   | -- |
-| showJumper         | Boolean  | 否   | 默认是 false , 是否需要分页尾部的跳转功能
+| showJumper         | Boolean  | 否   | 默认是 false , 是否需要分页尾部的跳转功能 | -- |
+|listname   | String | 接口返回的数据结构的分页列表层级对应的 key值，默认为 例如res.data.exg.list中的exg | -- |
+|resDataKeys | Object | {listKey,totalKey},列表接口成功之后对应的key值自定义，详细逻辑见下文 | -- |
 
 ### methods:
 
@@ -39,6 +41,44 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 ### emit
 - total(total,list)
 
+#### resData 处理逻辑
+```javascript
+// 组件内部列表接口获取部分如下，可以按照约定对接接口
+// 即接口返回数据结构约定为 res.data:{list,totalCount,...}
+// 如果接口返回数据结构更深一级，也可以通过 res.data[props.listname]:{list,totalCount,...} 对接
+
+// 或者 全部使用 自定义的key值：即res.data自定义的层级，对应自定义的 list total 的key
+// 即 props.resDataKeys: {listKey,totalKey}
+   props
+    .apiFn(postData)
+    .then((res) => {
+      loading.value = false;
+      if(props.resDataKeys){
+        if (props.listname) {
+          data.value = res.data[props.listname][props.resDataKeys.listKey];
+          tbPagination.obj.total = res.data[props.listname][props.resDataKeys.totalKey];
+        } else {
+          data.value = res.data[props.resDataKeys.listKey];
+          tbPagination.obj.total = res.data[props.resDataKeys.totalKey];
+        }
+      }else{
+        if (props.listname) {
+          data.value = res.data[props.listname].list;
+          tbPagination.obj.total = res.data[props.listname].totalCount;
+        } else {
+          data.value = res.data.list;
+          tbPagination.obj.total = res.data.totalCount;
+        }
+      }
+      emit("total",  tbPagination.obj.total);
+    })
+    .catch((err) => {
+      loading.value = false;
+    });
+```
+
+
+### 示例用法
 ```javascript
 // 组件外 页面设置垂直方向flex布局，表格组件布局父级 flex 1,撑满剩余高度。此为满屏布局，下面示例亦是如此。
 <template>
@@ -105,6 +145,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
       tableReload
     })
     setStaticTableData()
+  })
 </script>
 ```
 
@@ -254,4 +295,4 @@ export const linkToDetail = (row)=>{
 
 ### 本组件可以使用于大多数的基于naive-ui的前端项目的表格部分。另外如果样式和所涉及项目的UI样式不同，可以通过css去修改。也可以设置naive-ui的theme配置
 
-##### 有需要协助的可以 15858287521。
+##### 有需要协助的可以微 15858287521。
