@@ -1,4 +1,5 @@
 ### 基于 naive-ui 组件二次封装，适用于管理项目的列表页。
+import RongTable from 'rong-table';
 ### 组件功能：
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
   - 可以根据需要决定:
@@ -76,7 +77,6 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
       loading.value = false;
     });
 ```
-
 
 ### 示例用法
 ```javascript
