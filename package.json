@@ -10,6 +10,10 @@
   "license": "MIT",
   "main": "./src/components/Rongtable.vue",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiangchuifeng/rong-table.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
