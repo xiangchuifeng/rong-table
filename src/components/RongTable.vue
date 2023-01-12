@@ -20,6 +20,7 @@
     resDataKeys: {listKey,totalKey},列表接口成功之后对应的key值自定义
 
     showJumper:boolean 是否需要跳转页 default:true
+    preSetDataHandle: function, 某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..}
   methods:
     setStaticData: 设置静态数据用
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
@@ -112,7 +113,8 @@
     showJumper:{
     type: Boolean,
     default: true,
-  }
+  },
+  preSetDataHandle: Function,
   });
 
   const emit = defineEmits(["total"]);
@@ -181,8 +183,14 @@
         loading.value = true;
         props
           .apiFn(postData)
-          .then((res) => {
+          .then((res0) => {
             loading.value = false;
+            let res = res0;
+            if (props.preSetDataHandle) {
+              // 返回的非表格数据结构数据 需要单独预处理一下再赋值给表格
+              res.data = props.preSetDataHandle(res0.data);
+            }
+
             if(props.resDataKeys){
               if (props.listname) {
                 data.value = res.data[props.listname][props.resDataKeys.listKey];
@@ -196,6 +204,8 @@
                 data.value = res.data[props.listname].list;
                 tbPagination.obj.total = res.data[props.listname].totalCount;
               } else {
+
+                
                 data.value = res.data.list;
                 tbPagination.obj.total = res.data.totalCount;
               }

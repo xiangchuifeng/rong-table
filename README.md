@@ -1,7 +1,9 @@
 ### 基于 naive-ui 组件二次封装，适用于管理项目的列表页。
 
 ``` javascript
+
 import RongTable from 'rong-table';
+
 ```
 
 ### 组件功能：
@@ -33,6 +35,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 | showJumper         | Boolean  | 否   | 默认是 false , 是否需要分页尾部的跳转功能 | -- |
 |listname   | String | 否 | 接口返回的数据结构的分页列表层级对应的 key值，默认为 例如res.data.exg.list中的exg | -- |
 |resDataKeys | Object | 否 | {listKey,totalKey},列表接口成功之后对应的key值自定义，详细逻辑见下文 | -- |
+|preSetDataHandle | function | 否 |某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..} | -- |
 
 ### methods:
 
@@ -47,6 +50,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 - total(total,list)
 
 #### resData 处理逻辑
+
 ```javascript
 // 组件内部列表接口获取部分如下，可以按照约定对接接口
 // 即接口返回数据结构约定为 res.data:{list,totalCount,...}
@@ -83,6 +87,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 ```
 
 ### 示例用法
+
 ```javascript
 // 组件外 页面设置垂直方向flex布局，表格组件布局父级 flex 1,撑满剩余高度。此为满屏布局，下面示例亦是如此。
 <template>
