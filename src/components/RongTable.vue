@@ -8,6 +8,7 @@
     //apiName: String,表格接口请求时候的 接口名字，
     apiFn:Function,请求接口时候，每一个项目中封装好的 请求接口的方法
     postDataNormalKeys:Object，每个项目中的 列表请求的基础参数，页码等。
+    isSingle:Boolean  default:true ,表格是否有纵向纵向的分割线，即 是够为无边框的一行
     scrollX:String,
       表格右侧按钮列固定时候使用的出现滚动的宽度数值，即naive ui,表格的 scroll-x
       有更多需求，可以沟通再加扩展功能
@@ -21,6 +22,8 @@
 
     showJumper:boolean 是否需要跳转页 default:true
     preSetDataHandle: function, 某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..}
+    rowProps:function  (rowData: object, rowIndex : number) => object  自定义行属性
+    
   methods:
     setStaticData: 设置静态数据用
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
@@ -45,6 +48,7 @@
       :flex-height="flexHeight"
       single-line
       :scroll-x="scrollX || 1200"
+      :row-props="rowProps"
     />
     
     <n-pagination
@@ -115,6 +119,7 @@
     default: true,
   },
   preSetDataHandle: Function,
+  rowProps: Function,
   });
 
   const emit = defineEmits(["total"]);
@@ -204,8 +209,6 @@
                 data.value = res.data[props.listname].list;
                 tbPagination.obj.total = res.data[props.listname].totalCount;
               } else {
-
-                
                 data.value = res.data.list;
                 tbPagination.obj.total = res.data.totalCount;
               }

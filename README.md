@@ -19,13 +19,14 @@ import RongTable from 'rong-table';
 column；给定高度，组件要加上当前对应页面的对应的 class 方便去计算自适应列表的高度。
 
 ### props：
-
+<font size=4>
 | prop               | type     | 必须 | 描述                                                                                                                                                                                                                   | 默认值 |
 | :----------------- | :------- | :--- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----- |
 | pageClass          | String   | 是   | 每个页面单独要对组件加一个类名，为了使布局铺满剩余高度                                                                                                                                                                 | --     |
 | columns            | Array    | 是   | 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样                                                                                                                                                          | --     |
 | pagination         | Object   | 是   | 对分页进行的基础数据配置，基础不需要做更多配置，组件已有对应处理,配置属性和 naive 的对应配置一样                                                                                                                       | --     |
 | apiFn              | Function | 否   | 请求接口时候，每一个项目中封装好的 请求接口的方法，如果不写，也可以使用静态数据                                                                                                                                        | --     |
+| isSingle           | Boolean  | 否   | default:true ,表格是否有纵向纵向的分割线，即 是够为无边框的一行  |-- |
 | postDataNormalKeys | Object   | 否   | 每个项目中的列表请求的基础参数，页码等，例如：{current,pageSize},根据前后端约定配置                                                                                                                                                                                 | --     |
 | scrollX            | String   | 否   | 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样                                                                                                                                                          | 1200   |
 | searchObj          | Object   | 否   | 在初始进来 列表请求需要加一些初始筛选条件的时候可以绑定这个值，后面重载可从 getData(obj) 传参的形式载入筛选条件                                                                                                        | --     |
@@ -36,7 +37,8 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 |listname   | String | 否 | 接口返回的数据结构的分页列表层级对应的 key值，默认为 例如res.data.exg.list中的exg | -- |
 |resDataKeys | Object | 否 | {listKey,totalKey},列表接口成功之后对应的key值自定义，详细逻辑见下文 | -- |
 |preSetDataHandle | function | 否 |某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..} | -- |
-
+|rowProps | function| 否 | (rowData: object, rowIndex : number) => object  自定义行属性 | -- |
+</font>
 ### methods:
 
 - setStaticData: 设置静态数据用;
