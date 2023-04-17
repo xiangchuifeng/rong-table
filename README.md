@@ -5,7 +5,7 @@
 import RongTable from 'rong-table';
 
 ```
-![v](https://img.shields.io/badge/rong--table-v1.0.0-green)
+![v](https://img.shields.io/badge/rong--table-v1.0.0-brightgreen)
 
 ### 组件功能：
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
