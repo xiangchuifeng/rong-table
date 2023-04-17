@@ -5,6 +5,7 @@
 import RongTable from 'rong-table';
 
 ```
+![v](https://img.shields.io/badge/rong--table-v1.0.0-green)
 
 ### 组件功能：
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
@@ -19,7 +20,7 @@ import RongTable from 'rong-table';
 column；给定高度，组件要加上当前对应页面的对应的 class 方便去计算自适应列表的高度。
 
 ### props：
-<font size=4>
+
 | prop               | type     | 必须 | 描述                                                                                                                                                                                                                   | 默认值 |
 | :----------------- | :------- | :--- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----- |
 | pageClass          | String   | 是   | 每个页面单独要对组件加一个类名，为了使布局铺满剩余高度                                                                                                                                                                 | --     |
@@ -38,7 +39,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 |resDataKeys | Object | 否 | {listKey,totalKey},列表接口成功之后对应的key值自定义，详细逻辑见下文 | -- |
 |preSetDataHandle | function | 否 |某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..} | -- |
 |rowProps | function| 否 | (rowData: object, rowIndex : number) => object  自定义行属性 | -- |
-</font>
+
 ### methods:
 
 - setStaticData: 设置静态数据用;
