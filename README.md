@@ -5,7 +5,7 @@
 import RongTable from 'rong-table';
 
 ```
-![v](https://img.shields.io/badge/rong--table-v1.1.2-brightgreen)
+![v](https://img.shields.io/badge/rong--table-v1.1.3-brightgreen)
 
 ### 组件功能：
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
@@ -16,12 +16,12 @@ import RongTable from 'rong-table';
     - 是否重置分页的页码，翻页之后，搜索条件更新，一般要重置页码
     - 重载表格
     - 设置loading状态
-    - 增加了columns监听，可以在一个表格上修改columns,使用余tab切换类 起他多场景类表格
+    - 增加了columns监听，可以在一个表格上修改columns,使用于tab切换类，公用弹窗列表，起他多场景类表格
 
 布局上面 组件高度根据父元素高度设置，实现相对于页面高度的自适应高度布局；即父元素要给一个 flex 布局，flex-direction 设为
 column；给定高度，组件要加上当前对应页面的对应的 class 方便去计算自适应列表的高度。  
 
-组件获取接口数据的方法 getData,在组件内部只有 监听到apiName改变、内部页码操作、首次加载时候会触发，其他情况可以根据应用场景择机使用。
+组件获取接口数据的方法 getData,在组件内部只有 监听到apiName改变、内部页码操作、首次加载时候会触发，其他情况可以根据应用场景在组件外部择机使用。
 
 ### props：
 
