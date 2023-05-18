@@ -25,9 +25,11 @@
     rowProps:function  (rowData: object, rowIndex : number) => object  自定义行属性
     
   methods:
-    setStaticData: 设置静态数据用
+    setLoading: 设置loading状态 ,setLoading(true/false)
+    setStaticData: 设置静态数据用, setStaticData(array)
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
     ，并重新请求表单数据，不传搜索条件，则重载数据
+      params: (searchObj, noNeedReset)
       searchObj: 搜索条件
       'noNeedResetPage' 默认是搜索时候重置的，不需要重置，就带第二个参数 'noNeedResetPage'
   emit
@@ -50,7 +52,7 @@
       :scroll-x="scrollX || 1200"
       :row-props="rowProps"
     />
-    
+
     <n-pagination
       v-if="needPagiantion"
       class="ld_pagination"
@@ -114,21 +116,30 @@
       type: Boolean,
       default: true,
     },
-    showJumper:{
-    type: Boolean,
-    default: true,
-  },
-  preSetDataHandle: Function,
-  rowProps: Function,
+    showJumper: {
+      type: Boolean,
+      default: true,
+    },
+    preSetDataHandle: Function,
+    rowProps: Function,
   });
 
   const emit = defineEmits(["total"]);
 
   const height = ref(200);
-  const heightStr = ref(props.needPagination ? 'calc(100% - 48px)' : '100%');
+  const heightStr = ref(props.needPagination ? "calc(100% - 48px)" : "100%");
   const loading = ref(true);
 
   const columns0 = toRef(props, "columns");
+  watch(
+    () => props.columns,
+    (n) => {
+      loading.value = true;
+      columns0.value = n;
+    },
+    { deep: true }
+  );
+
   const pagconfig0 = reactive({
     obj: {
       showSizePicker: (props.pagConfig && props.pagConfig.showSizePicker) || false,
@@ -150,7 +161,7 @@
 
   const data = ref([]);
 
-  let search = reactive(props.searchObj||{});
+  let search = reactive(props.searchObj || {});
 
   const apiName0 = ref(props.apiName);
 
@@ -196,7 +207,7 @@
               res.data = props.preSetDataHandle(res0.data);
             }
 
-            if(props.resDataKeys){
+            if (props.resDataKeys) {
               if (props.listname) {
                 data.value = res.data[props.listname][props.resDataKeys.listKey];
                 tbPagination.obj.total = res.data[props.listname][props.resDataKeys.totalKey];
@@ -204,7 +215,7 @@
                 data.value = res.data[props.resDataKeys.listKey];
                 tbPagination.obj.total = res.data[props.resDataKeys.totalKey];
               }
-            }else{
+            } else {
               if (props.listname) {
                 data.value = res.data[props.listname].list;
                 tbPagination.obj.total = res.data[props.listname].totalCount;
@@ -226,7 +237,12 @@
     }
   };
 
+  const setLoading = (flag) => {
+    loading.value = flag;
+  };
+
   defineExpose({
+    setLoading,
     getData,
     setStaticData,
     // updateSearchObj,
@@ -309,7 +325,7 @@
 </script>
 
 <style lang="less" scoped>
-   @import url("../assets/shot.less");
+  @import url("../assets/shot.less");
   .ld_pagination {
     float: right;
     margin-top: 20px;
@@ -327,6 +343,5 @@
     .n-data-table-base-table-header {
       display: none;
     }
-   
   }
 </style>
