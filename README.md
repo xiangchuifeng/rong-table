@@ -5,7 +5,7 @@
 import RongTable from 'rong-table';
 
 ```
-![v](https://img.shields.io/badge/rong--table-v1.1.4-brightgreen)
+![v](https://img.shields.io/badge/rong--table-v1.1.6-brightgreen)
 
 ### 组件功能：
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
@@ -45,7 +45,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 
 ### methods:
 - setLoading: 设置loading状态 ,setLoading(true/false)，
-- setStaticData: 设置静态数据用, setStaticData(array)
+- setStaticData: 设置静态数据用, setStaticData(array),注意，设置静态数据时候，请不要传递apiFn,或者等接口请求完毕后延时设置静态数据
 - getData: 重载表格数据，当页面 searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件，并重新请求表单数据，不传
   搜索条件，则重载数据
   - params：

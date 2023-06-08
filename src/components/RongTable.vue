@@ -26,7 +26,7 @@
     
   methods:
     setLoading: 设置loading状态 ,setLoading(true/false)
-    setStaticData: 设置静态数据用, setStaticData(array)
+    setStaticData: 设置静态数据用, setStaticData(array),注意，设置静态数据时候，请不要传递apiFn,或者等接口请求完毕后加延时设置静态数据
     getData: 重载表格数据，当页面searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件
     ，并重新请求表单数据，不传搜索条件，则重载数据
       params: (searchObj, noNeedReset)
