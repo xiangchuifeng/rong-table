@@ -123,19 +123,33 @@
     preSetDataHandle: Function,
     rowProps: Function,
   });
-
   const emit = defineEmits(["total"]);
+  const setColumnsNullSpace = (cols)=>{
+    let handledCols=[];
+    const nullStr = ['',undefined,null,'null']
+    handledCols = cols.map(item=>{
+      let o = item;
+      if(!o.render){
+        o.render = (row)=>{
+          return nullStr.includes(String(row[item.key]))?'-':row[item.key]
+        }
+      }
+      return o;
+    })
+    return handledCols
+  }
 
   const height = ref(200);
   const heightStr = ref(props.needPagination ? "calc(100% - 48px)" : "100%");
   const loading = ref(true);
 
   const columns0 = toRef(props, "columns");
+  columns0.value = setColumnsNullSpace(columns0.value)
   watch(
     () => props.columns,
     (n) => {
       loading.value = true;
-      columns0.value = n;
+      columns0.value = setColumnsNullSpace(n);
     },
     { deep: true }
   );
