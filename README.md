@@ -5,10 +5,10 @@
 import RongTable from 'rong-table';
 
 ```
-![v](https://img.shields.io/badge/rong--table-v1.2.0-brightgreen)
+![v](https://img.shields.io/badge/rong--table-v1.2.1-brightgreen)
 
 ### 组件功能：
-  - v1.2.0 相比以前版本增加了空值处理功能，对默认没有render元素的列做了空值处理,统一处理为 ‘-’ ，福音哦！👨‍🚀
+  - v1.2.1 相比以前版本增加了空值处理功能，对默认没有render元素的列做了空值处理,统一处理为 ‘-’ ，福音哦！👨‍🚀
   - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
   - 可以根据需要决定:
     - 是否使用表头
