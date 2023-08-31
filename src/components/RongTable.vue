@@ -302,7 +302,6 @@
   );
 
   const currentPageChange = (page) => {
-    console.log(page, "jk---");
     getData("", "noNeedReset");
   };
 
@@ -323,6 +322,7 @@
   };
 
   onMounted(() => {
+    // 因为自动适配高度布局时候，需要获取高度，加个延时处理
     setTimeout(() => {
       if (!props.autoHeight) {
         getTableWrapHeight();

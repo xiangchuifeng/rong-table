@@ -1,27 +1,23 @@
 ### 基于 naive-ui 组件二次封装，适用于管理项目的列表页。
 
-``` javascript
-
-import RongTable from 'rong-table';
-
+```javascript
+import RongTable from "rong-table";
 ```
+
 ![v](https://img.shields.io/badge/rong--table-v1.2.1-brightgreen)
 
 ### 组件功能：
-  - v1.2.1 相比以前版本增加了空值处理功能，对默认没有render元素的列做了空值处理,统一处理为 ‘-’ ，福音哦！👨‍🚀
-  - 可以设置静态数据，或者根据自己的api接口请求数据，api使用时候，要把自己封装好的api方法传入组件
-  - 可以根据需要决定:
-    - 是否使用表头
-    - 是否使用分页
-    - 是否传入初始搜索条件，
-    - 是否重置分页的页码，翻页之后，搜索条件更新，一般要重置页码
-    - 重载表格
-    - 设置loading状态
-    - 增加了columns监听，可以在一个表格上修改columns,使用于tab切换类，公用弹窗列表，起他多场景类表格 
-布局上面 组件高度根据父元素高度设置，实现相对于页面高度的自适应高度布局；即父元素要给一个 flex 布局，flex-direction 设为
-column；给定高度，组件要加上当前对应页面的对应的 class 方便去计算自适应列表的高度。  
 
-组件获取接口数据的方法 getData,在组件内部只有 监听到apiName改变、内部页码操作、首次加载时候会触发，其他情况可以根据应用场景在组件外部择机使用。 [xiangchuifeng](https://www.xiangchuifeng.cn) 
+- v1.2.1 相比以前版本增加了空值处理功能，对默认没有 render 元素的列做了空值处理,统一处理为 ‘-’ ，福音哦！👨‍🚀
+- 可以设置静态数据，或者根据自己的 api 接口请求数据，api 使用时候，要把自己封装好的 api 方法传入组件
+- 可以根据需要决定: - 是否使用表头 - 是否使用分页 - 是否传入初始搜索条件， - 是否重置分页的页码，翻页之后，搜索条件更新
+  ，一般要重置页码 - 重载表格 - 设置 loading 状态 - 增加了 columns 监听，可以在一个表格上修改 columns,使用于 tab 切换类
+  ，公用弹窗列表，起他多场景类表格 布局上面 组件高度根据父元素高度设置，实现相对于页面高度的自适应高度布局；即父元素要给
+  一个 flex 布局，flex-direction 设为 column；给定高度，组件要加上当前对应页面的对应的 class 方便去计算自适应列表的高度
+  。
+
+组件获取接口数据的方法 getData,在组件内部只有 监听到 apiName 改变、内部页码操作、首次加载时候会触发，其他情况可以根据应
+用场景在组件外部择机使用。 [xiangchuifeng](https://www.xiangchuifeng.cn)
 
 ### props：
 
@@ -31,22 +27,24 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 | columns            | Array    | 是   | 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样                                                                                                                                                          | --     |
 | pagination         | Object   | 是   | 对分页进行的基础数据配置，基础不需要做更多配置，组件已有对应处理,配置属性和 naive 的对应配置一样                                                                                                                       | --     |
 | apiFn              | Function | 否   | 请求接口时候，每一个项目中封装好的 请求接口的方法，如果不写，也可以使用静态数据                                                                                                                                        | --     |
-| isSingle           | Boolean  | 否   | default:true ,表格是否有纵向纵向的分割线，即 是够为无边框的一行  |-- |
-| postDataNormalKeys | Object   | 否   | 每个项目中的列表请求的基础参数，页码等，例如：{current,pageSize},根据前后端约定配置                                                                                                                                                                                 | --     |
+| isSingle           | Boolean  | 否   | default:true ,表格是否有纵向纵向的分割线，即 是够为无边框的一行                                                                                                                                                        | --     |
+| postDataNormalKeys | Object   | 否   | 每个项目中的列表请求的基础参数，页码等，例如：{current,pageSize},根据前后端约定配置                                                                                                                                    | --     |
 | scrollX            | String   | 否   | 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样                                                                                                                                                          | 1200   |
 | searchObj          | Object   | 否   | 在初始进来 列表请求需要加一些初始筛选条件的时候可以绑定这个值，后面重载可从 getData(obj) 传参的形式载入筛选条件                                                                                                        | --     |
 | autoHeight         | Boolean  | 否   | 默认是 false ,flex 1,自动使用外边父级的高度的，为 true 时候高度为自由高度，解决整体页面双滚动条问题,同时需要 flexHeight 设为 false；或者，另外 硬性通过 css 设置 table 的固定高度 也可以暂时解决整体页面双滚动条问题， | false  |
-| needPagiantion     | Boolean  | 否   | 默认是 true,是否需要分页部分  | --  |
-| noHeadLine         | Boolean  | 否   | 默认是 false ,是否需要头部   | -- |
-| showJumper         | Boolean  | 否   | 默认是 false , 是否需要分页尾部的跳转功能 | -- |
-|listname   | String | 否 | 接口返回的数据结构的分页列表层级对应的 key值，默认为 例如res.data.exg.list中的exg | -- |
-|resDataKeys | Object | 否 | {listKey,totalKey},列表接口成功之后对应的key值自定义，详细逻辑见下文 | -- |
-|preSetDataHandle | function | 否 |某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..} | -- |
-|rowProps | function| 否 | (rowData: object, rowIndex : number) => object  自定义行属性 | -- |
+| needPagiantion     | Boolean  | 否   | 默认是 true,是否需要分页部分                                                                                                                                                                                           | --     |
+| noHeadLine         | Boolean  | 否   | 默认是 false ,是否需要头部                                                                                                                                                                                             | --     |
+| showJumper         | Boolean  | 否   | 默认是 false , 是否需要分页尾部的跳转功能                                                                                                                                                                              | --     |
+| listname           | String   | 否   | 接口返回的数据结构的分页列表层级对应的 key 值，默认为 例如 res.data.exg.list 中的 exg                                                                                                                                  | --     |
+| resDataKeys        | Object   | 否   | {listKey,totalKey},列表接口成功之后对应的 key 值自定义，详细逻辑见下文                                                                                                                                                 | --     |
+| preSetDataHandle   | function | 否   | 某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..}                                                                                                                | --     |
+| rowProps           | function | 否   | (rowData: object, rowIndex : number) => object 自定义行属性                                                                                                                                                            | --     |
 
 ### methods:
-- setLoading: 设置loading状态 ,setLoading(true/false)，
-- setStaticData: 设置静态数据用, setStaticData(array),注意，设置静态数据时候，请不要传递apiFn,或者等接口请求完毕后延时设置静态数据
+
+- setLoading: 设置 loading 状态 ,setLoading(true/false)，
+- setStaticData: 设置静态数据用, setStaticData(array),注意，设置静态数据时候，请不要传递 apiFn,或者等接口请求完毕后延时
+  设置静态数据
 - getData: 重载表格数据，当页面 searchBar(搜索条)存在时候，可以当搜索条触发时候，传递搜索条件，并重新请求表单数据，不传
   搜索条件，则重载数据
   - params：
@@ -54,6 +52,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
     - 'noNeedResetPage' 默认是搜索时候重置的，不需要重置，就带第二个参数 'noNeedResetPage';
 
 ### emit
+
 - total(total,list)
 
 #### resData 处理逻辑
@@ -65,32 +64,32 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 
 // 或者 全部使用 自定义的key值：即res.data自定义的层级，对应自定义的 list total 的key
 // 即 props.resDataKeys: {listKey,totalKey}
-   props
-    .apiFn(postData)
-    .then((res) => {
-      loading.value = false;
-      if(props.resDataKeys){
-        if (props.listname) {
-          data.value = res.data[props.listname][props.resDataKeys.listKey];
-          tbPagination.obj.total = res.data[props.listname][props.resDataKeys.totalKey];
-        } else {
-          data.value = res.data[props.resDataKeys.listKey];
-          tbPagination.obj.total = res.data[props.resDataKeys.totalKey];
-        }
-      }else{
-        if (props.listname) {
-          data.value = res.data[props.listname].list;
-          tbPagination.obj.total = res.data[props.listname].totalCount;
-        } else {
-          data.value = res.data.list;
-          tbPagination.obj.total = res.data.totalCount;
-        }
+props
+  .apiFn(postData)
+  .then((res) => {
+    loading.value = false;
+    if (props.resDataKeys) {
+      if (props.listname) {
+        data.value = res.data[props.listname][props.resDataKeys.listKey];
+        tbPagination.obj.total = res.data[props.listname][props.resDataKeys.totalKey];
+      } else {
+        data.value = res.data[props.resDataKeys.listKey];
+        tbPagination.obj.total = res.data[props.resDataKeys.totalKey];
       }
-      emit("total",  tbPagination.obj.total);
-    })
-    .catch((err) => {
-      loading.value = false;
-    });
+    } else {
+      if (props.listname) {
+        data.value = res.data[props.listname].list;
+        tbPagination.obj.total = res.data[props.listname].totalCount;
+      } else {
+        data.value = res.data.list;
+        tbPagination.obj.total = res.data.totalCount;
+      }
+    }
+    emit("total", tbPagination.obj.total);
+  })
+  .catch((err) => {
+    loading.value = false;
+  });
 ```
 
 ### 示例用法
@@ -168,7 +167,7 @@ column；给定高度，组件要加上当前对应页面的对应的 class 方�
 ```javascript
 // tbColumns.js
 import { h } from "vue";
-import { NTag, NRate,NButton } from "naive-ui";
+import { NTag, NRate, NButton } from "naive-ui";
 export const injectActionsToColumns = (...actions) => [
   {
     title: "企业名称",
@@ -281,15 +280,14 @@ export const injectActionsToColumns = (...actions) => [
 
 let tableReload = null;
 
-export const injectTableVars = (vars)=>{
+export const injectTableVars = (vars) => {
   tableReload = vars.tableReload;
-}
+};
 
 // 跳转
-export const linkToDetail = (row)=>{
-  window.alert('dsdd')
-}
-
+export const linkToDetail = (row) => {
+  window.alert("dsdd");
+};
 ```
 
 ```javascript
@@ -306,9 +304,9 @@ export const linkToDetail = (row)=>{
       @total="setTotal"
     />
   </div>
-  
+
 ```
 
-### 本组件可以使用于大多数的基于naive-ui的前端项目的表格部分。另外如果样式和所涉及项目的UI样式不同，可以通过css去修改。也可以设置naive-ui的theme配置
+### 本组件可以使用于大多数的基于 naive-ui 的前端项目的表格部分。另外如果样式和所涉及项目的 UI 样式不同，可以通过 css 去修改。也可以设置 naive-ui 的 theme 配置
 
 ##### 有需要协助的可以微 15858287521。my blog: [xiangchuifeng](https://www.xiangchuifeng.cn)
