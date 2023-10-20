@@ -3,7 +3,7 @@
   可以看后备库页面(/backLib)的应用示例 
   props:
     pageClass: String,每个页面单独要对组件加一个类名，为了使布局铺满剩余高度
-    columns: Array, 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样，
+    columns: Array, 对表格的每一项的字段相关配置，配置属性和 naive 的对应配置一样，columns如果不存在render函数，则默认空值相关的会回填 ‘-’
     pagination: Object,对分页进行的基础数据配置，基础不需要多更多配置，组件已有对应处理
     //apiName: String,表格接口请求时候的 接口名字，
     apiFn:Function,请求接口时候，每一个项目中封装好的 请求接口的方法
@@ -19,6 +19,7 @@
     needPagiantion: 默认 true,是否需要分页
     listname: 接口返回的分页列表对应的 key值，默认为 list,res.data.list
     resDataKeys: {listKey,totalKey},列表接口成功之后对应的key值自定义
+    postPaginationKey: Object, default: {pageSize:'pageSize',currPage:'currPage'}, when request list api,if you need self page params keys,you can config it here. 
 
     showJumper:boolean 是否需要跳转页 default:true
     preSetDataHandle: function, 某些情况接口返回非表格数据结构，需要单独处理一下再赋值给表格，fn return {list,totalCount，otherProps..}
@@ -95,6 +96,13 @@
       type: Object,
       default: null,
     },
+    postPaginationKey: {
+      type: Object,
+      default: {
+        pageSize: "pageSize",
+        currPage: "currPage",
+      },
+    },
     noHeadLine: {
       type: Boolean,
       default: false,
@@ -124,27 +132,27 @@
     rowProps: Function,
   });
   const emit = defineEmits(["total"]);
-  const setColumnsNullSpace = (cols)=>{
-    let handledCols=[];
-    const nullStr = ['',undefined,null,'null']
-    handledCols = cols.map(item=>{
+  const setColumnsNullSpace = (cols) => {
+    let handledCols = [];
+    const nullStr = ["", undefined, null, "null"];
+    handledCols = cols.map((item) => {
       let o = item;
-      if(!o.render){
-        o.render = (row)=>{
-          return nullStr.includes(String(row[item.key]))?'-':row[item.key]
-        }
+      if (!o.render) {
+        o.render = (row) => {
+          return nullStr.includes(String(row[item.key])) ? "-" : row[item.key];
+        };
       }
       return o;
-    })
-    return handledCols
-  }
+    });
+    return handledCols;
+  };
 
   const height = ref(200);
   const heightStr = ref(props.needPagination ? "calc(100% - 48px)" : "100%");
   const loading = ref(true);
 
   const columns0 = toRef(props, "columns");
-  columns0.value = setColumnsNullSpace(columns0.value)
+  columns0.value = setColumnsNullSpace(columns0.value);
   watch(
     () => props.columns,
     (n) => {
@@ -203,10 +211,13 @@
       };
     } else {
       postData = {
-        currPage: tbPagination.obj.currentPage,
-        pageSize: tbPagination.obj.pageSize,
+        [props.postPaginationKey.currPage]: tbPagination.obj.currentPage,
+        [props.postPaginationKey.pageSize]: tbPagination.obj.pageSize,
         ...search,
       };
+    }
+    if (!props.needPagination) {
+      postData.pageSize = 9999;
     }
     if (props.apiFn) {
       if (props.apiFn) {
@@ -234,7 +245,7 @@
                 data.value = res.data[props.listname].list;
                 tbPagination.obj.total = res.data[props.listname].totalCount;
               } else {
-                data.value = res.data.list;
+                data.value = res.data?.list;
                 tbPagination.obj.total = res.data.totalCount;
               }
             }
@@ -340,6 +351,12 @@
 
 <style lang="less" scoped>
   @import url("../assets/shot.less");
+
+  .vx-flex_item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+  }
   .ld_pagination {
     float: right;
     margin-top: 20px;
